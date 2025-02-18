@@ -14,9 +14,3 @@ function authMiddleware(req, res, next) {
 }
 
 module.exports = authMiddleware;
-
-const authMiddleware = require("./middleware/authMiddleware");
-
-app.get("/protected", authMiddleware, (req, res) => {
-    res.json({ message: "Tu as accès à cette route protégée", user: req.user });
-});
