@@ -1,26 +1,36 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
-import Home from "./pages/Home.jsx";
-import Projects from "./pages/Projects.jsx";
-import Contact from "./pages/Contact.jsx";
-import Footer from "./components/Footer.jsx";
 
-console.log("Navbar:", Navbar);
-console.log("Home:", Home);
-console.log("Projects:", Projects);
-console.log("Contact:", Contact);
-console.log("Footer:", Footer);
+// Import des composants
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+// Import des pages
+import Home from "./pages/Home";
+import Projects from "./pages/Projects";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/404";
 
 function App() {
   return (
-    <Router> {/* 🚀 Ajout du Router ici */}
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-      <Footer />
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        {/* Navbar toujours visible */}
+        <Navbar />
+
+        {/* Routes pour chaque page */}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+
+        {/* Footer toujours visible */}
+        <Footer />
+      </div>
     </Router>
   );
 }

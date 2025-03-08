@@ -24,6 +24,9 @@ router.post("/websites", adminMiddleware, async (req, res) => {
 router.delete("/websites/:id", authMiddleware, adminMiddleware, async (req, res) => {
         // Seuls les admins peuvent supprimer un site
 });
+router.put("/websites/:id", authMiddleware, adminMiddleware, async (req, res) => {
+    // Seuls les admins peuvent modifier un site
+});
 
 /** 🟢 CREATE (Ajouter un site) */
 router.post("/", async (req, res) => {
