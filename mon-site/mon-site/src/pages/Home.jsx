@@ -2,6 +2,7 @@ import React from "react";
 import photo from "../photo_emma.png"; // Assure-toi que le chemin est correct
 import { DiJavascript1 } from 'react-icons/di';
 import { SiReact } from "react-icons/si";
+import Timeline from "../components/Timeline";
 
 function Home() {
   return (
@@ -45,9 +46,7 @@ function Home() {
       {/* Section Mon parcours */}
       <div className="mt-8 text-center">
         <h2 className="text-2xl font-semibold mb-6">Mon parcours</h2>
-        <div className="w-24 h-24 border-2 border-gray-400 mt-2 flex items-center justify-center mx-auto">
-          X
-        </div>
+        <Timeline />
       </div>
     </>
   );
