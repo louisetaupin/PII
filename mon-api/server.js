@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 // Charger les modèles et routes
 const websiteRoutes = require("./routes/website");
-const userRoutes = require("./models/user"); // Ajoute si tu veux un fichier routes séparé pour `user`
+const userRoutes = require("./models/user"); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +25,8 @@ mongoose
 app.use("/api/websites", websiteRoutes);
 const authRoutes = require("./routes/auth");  // Ajout des routes d'authentification
 app.use("/api/auth", authRoutes);
+const contactRoutes = require("./routes/contact");
+app.use("/api/contact", contactRoutes);
 
 // Route de test pour voir si le serveur fonctionne
 app.get("/", (req, res) => {
