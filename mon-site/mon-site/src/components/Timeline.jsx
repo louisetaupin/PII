@@ -76,7 +76,7 @@ const Slide = forwardRef(function Slide({ item, direction }, ref) {
       initial={{ opacity: 0, x: direction * 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: direction * -50 }}
-      transition={{ delay: 0.2, type: "tween", duration: 0.3, ease: "easeOut" }}
+      transition={{ delay: 0.2, type: "tween", duration: 0.3}}
       style={{ ...box, backgroundColor: "#fff", padding: "1rem" }}
     >
       <p className="text-sm text-gray-500">{item.date}</p>
