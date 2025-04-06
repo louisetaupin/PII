@@ -41,10 +41,10 @@ router.post("/", async (req, res) => {
     }
 });
 
-/** 🔵 READ (Obtenir tous les sites) */
+/** 🔵 READ (Obtenir tous les sites disponibles) */
 router.get("/", async (req, res) => {
     try {
-        const websites = await Website.find();
+        const websites = await Website.find({archived:false});
         res.json(websites);
     } catch (error) {
         console.error(error);
@@ -52,6 +52,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+    // 🔵 READ (Obtenir tous les sites archivés)//
+    router.get("/archived", authMiddleware, adminMiddleware, async (req, res) => {
+        try {
+          const archivedWebsites = await Website.find({ archived: true });
+          res.json(archivedWebsites);
+        } catch (error) {
+          res.status(500).json({ error: "Erreur lors de la récupération des projets archivés" });
+        }
+      });
+      
 /** 🔍 READ (Obtenir un site par ID) */
 router.get("/:id", async (req, res) => {
     try {
@@ -77,7 +87,7 @@ router.put("/:id", async (req, res) => {
 });
 
 /** 🔴 DELETE (Supprimer un site) */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const deletedWebsite = await Website.findByIdAndDelete(req.params.id);
         if (!deletedWebsite) return res.status(404).json({ error: "Site non trouvé" });
@@ -88,4 +98,34 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+/** 🟠 PATCH (Archiver un site) */
+router.patch("/archive/:id", authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+      const updated = await Website.findByIdAndUpdate(
+        req.params.id,
+        { archived: true },
+        { new: true }
+      );
+      if (!updated) return res.status(404).json({ error: "Projet non trouvé" });
+      res.json({ message: "Projet archivé avec succès", website: updated });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de l'archivage du projet" });
+    }
+  });
+  
+  // 🟠 PATCH Désarchiver un site //
+router.patch("/unarchive/:id", authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+      const updated = await Website.findByIdAndUpdate(
+        req.params.id,
+        { archived: false },
+        { new: true }
+      );
+      if (!updated) return res.status(404).json({ error: "Projet non trouvé" });
+      res.json({ message: "Projet désarchivé avec succès", website: updated });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors du désarchivage du projet" });
+    }
+  });
+  
 module.exports = router;

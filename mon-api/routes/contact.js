@@ -27,10 +27,11 @@ router.post("/", async (req, res) => {
 
     // Définissez les options de l'email
     let mailOptions = {
-      from: email, // l'email de l'expéditeur (celui qui remplit le formulaire)
+      from: `${email}`, // l'email de l'expéditeur (celui qui remplit le formulaire)
       to: "ltaupin@ensc.fr", // remplacez par l'adresse de destination souhaitée
       subject: `Nouveau message de ${name}`,
-      text: message,
+      text: `Message de ${name} (${email}) :\n\n${message}`,
+      replyTo: `${email}`, // <- C’est ça qui fait que "Répondre" utilisera le bon mail
       // Optionnel : html: `<p>${message}</p>`
     };
 

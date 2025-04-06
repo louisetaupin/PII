@@ -1,34 +1,35 @@
-"use client";
-
-import React, { useState, forwardRef } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { wrap } from "popmotion"; 
+import { wrap } from "popmotion";
 
-// Vos données de timeline
-const timelineData = [
-  {
-    date: "2015 - 2018",
-    title: "Bachelor en Informatique",
-    description: "Formation à l'Université de XYZ, axée sur les bases de la programmation et des systèmes.",
-  },
-  {
-    date: "2018 - 2020",
-    title: "Master en Design Web",
-    description: "Spécialisation en design interactif et ergonomie web à l'École ABC.",
-  },
-  {
-    date: "2020 - 2023",
-    title: "Développeur Front-End",
-    description: "Expérience professionnelle chez Entreprise 123, création d'interfaces utilisateur réactives.",
-  },
-];
-
-function TimelineSlider() {
-  // Index de l'élément affiché et direction de la navigation
+function Timeline() {
+  const [timelineData, setTimelineData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  // Fonction de pagination qui gère le changement d'élément
+  // 🔁 Récupérer la timeline depuis la base
+  useEffect(() => {
+    fetch("http://localhost:5000/api/home")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.timeline) {
+          const sorted = [...data.timeline].sort((a, b) =>
+            a.date.localeCompare(b.date)
+          );
+          setTimelineData(sorted);
+        }
+      })
+      .catch((err) => console.error("Erreur chargement timeline :", err));
+  }, []);
+
+  if (!timelineData) {
+    return <div>Chargement...</div>;
+  }
+
+  if (timelineData.length === 0) {
+    return <div className="text-center text-gray-500">Aucune expérience pour l’instant.</div>;
+  }
+
   const paginate = (newDirection) => {
     const newIndex = wrap(0, timelineData.length, currentIndex + newDirection);
     setCurrentIndex(newIndex);
@@ -45,21 +46,32 @@ function TimelineSlider() {
         aria-label="Précédent"
         style={button}
         onClick={() => paginate(-1)}
-        whileFocus={{ outline: "2px solid #eab308" }}
         whileTap={{ scale: 0.9 }}
       >
         <ArrowLeft />
       </motion.button>
+
       <AnimatePresence custom={direction}>
-        <Slide key={currentIndex} item={currentItem} direction={direction} />
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, x: direction * 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction * -50 }}
+          transition={{ delay: 0.2, type: "tween", duration: 0.3 }}
+          style={{ ...box, backgroundColor: "#fff", padding: "1rem" }}
+        >
+          <p className="text-sm text-gray-500">{currentItem.date}</p>
+          <h4 className="text-lg font-semibold">{currentItem.title}</h4>
+          <p className="text-gray-700">{currentItem.description}</p>
+        </motion.div>
       </AnimatePresence>
+
       <motion.button
         initial={false}
         animate={{ backgroundColor: "#eab308" }}
         aria-label="Suivant"
         style={button}
         onClick={() => paginate(1)}
-        whileFocus={{ outline: "2px solid #eab308" }}
         whileTap={{ scale: 0.9 }}
       >
         <ArrowRight />
@@ -68,27 +80,7 @@ function TimelineSlider() {
   );
 }
 
-// Composant Slide qui affiche l'élément de la timeline avec animation
-const Slide = forwardRef(function Slide({ item, direction }, ref) {
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: direction * 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: direction * -50 }}
-      transition={{ delay: 0.2, type: "tween", duration: 0.3}}
-      style={{ ...box, backgroundColor: "#fff", padding: "1rem" }}
-    >
-      <p className="text-sm text-gray-500">{item.date}</p>
-      <h4 className="text-lg font-semibold">{item.title}</h4>
-      <p className="text-gray-700">{item.description}</p>
-    </motion.div>
-  );
-});
-
-/**
- * ==============   Icons   ================
- */
+// Icônes
 const iconsProps = {
   xmlns: "http://www.w3.org/2000/svg",
   width: "24",
@@ -119,9 +111,7 @@ function ArrowRight() {
   );
 }
 
-/**
- * ==============   Styles   ================
- */
+// Styles
 const container = {
   display: "flex",
   position: "relative",
@@ -149,4 +139,4 @@ const button = {
   outlineOffset: 2,
 };
 
-export default TimelineSlider;
+export default Timeline;

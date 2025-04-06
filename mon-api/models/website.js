@@ -6,7 +6,8 @@ const WebsiteSchema = new mongoose.Schema({
     coverImage: { type: String, required: true }, // URL de l'image
     link: { type: String, required: true },
     description: { type: String, required: true },
-    tools: { type: [String], required: true } // Liste des outils utilisés
+    tools: { type: [String], required: true }, // Liste des outils utilisés
+    archived: { type: Boolean, default: false }
 });
 
 const Website = mongoose.model("Website", WebsiteSchema);
