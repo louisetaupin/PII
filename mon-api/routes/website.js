@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddleware = require("../middleware/adminMiddleware");
+const Website = require("../models/website");
 
-// ✅ Définition correcte d'une route protégée
+// 🟣  Définition correcte d'une route protégée
 router.get("/admin", authMiddleware, adminMiddleware, (req, res) => {
     res.json({ message: "Bienvenue sur l'interface admin !" });
 });
@@ -13,22 +14,17 @@ router.get("/protected", authMiddleware, (req, res) => {
 module.exports = router;
 
 
-
-const Website = require("../models/website");
-
-
+// Seuls les administrateurs connectés peuvent ajouter un site
 router.post("/websites", adminMiddleware, async (req, res) => { 
-
 })
-    // Seuls les administrateurs connectés peuvent ajouter un site
+// Seuls les admins peuvent supprimer un site
 router.delete("/websites/:id", authMiddleware, adminMiddleware, async (req, res) => {
-        // Seuls les admins peuvent supprimer un site
 });
+// Seuls les admins peuvent modifier un site
 router.put("/websites/:id", authMiddleware, adminMiddleware, async (req, res) => {
-    // Seuls les admins peuvent modifier un site
 });
 
-/** 🟢 CREATE (Ajouter un site) */
+/** 🟢 Ajouter un site **/
 router.post("/", async (req, res) => {
     try {
         const { name, coverImage, link, description, tools } = req.body;
@@ -41,7 +37,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-/** 🔵 READ (Obtenir tous les sites disponibles) */
+/** 🔵 Obtenir tous les sites disponibles **/
 router.get("/", async (req, res) => {
     try {
         const websites = await Website.find({archived:false});
@@ -52,7 +48,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-    // 🔵 READ (Obtenir tous les sites archivés)//
+    /** 🔵 Obtenir tous les sites archivés **/
     router.get("/archived", authMiddleware, adminMiddleware, async (req, res) => {
         try {
           const archivedWebsites = await Website.find({ archived: true });
@@ -62,19 +58,8 @@ router.get("/", async (req, res) => {
         }
       });
       
-/** 🔍 READ (Obtenir un site par ID) */
-router.get("/:id", async (req, res) => {
-    try {
-        const website = await Website.findById(req.params.id);
-        if (!website) return res.status(404).json({ error: "Site non trouvé" });
-        res.json(website);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erreur lors de la récupération du site" });
-    }
-});
 
-/** 🟠 UPDATE (Modifier un site) */
+/** 🟠 Modifier un site **/
 router.put("/:id", async (req, res) => {
     try {
         const updatedWebsite = await Website.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -86,7 +71,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-/** 🔴 DELETE (Supprimer un site) */
+/** 🔴 Supprimer un site **/
 router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const deletedWebsite = await Website.findByIdAndDelete(req.params.id);
@@ -98,7 +83,7 @@ router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
     }
 });
 
-/** 🟠 PATCH (Archiver un site) */
+/** 🟠 Archiver un site **/
 router.patch("/archive/:id", authMiddleware, adminMiddleware, async (req, res) => {
     try {
       const updated = await Website.findByIdAndUpdate(
@@ -113,7 +98,7 @@ router.patch("/archive/:id", authMiddleware, adminMiddleware, async (req, res) =
     }
   });
   
-  // 🟠 PATCH Désarchiver un site //
+  /**  🟠 Désarchiver un site **/
 router.patch("/unarchive/:id", authMiddleware, adminMiddleware, async (req, res) => {
     try {
       const updated = await Website.findByIdAndUpdate(

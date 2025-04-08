@@ -3,10 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-// Charger les modèles et routes
-const websiteRoutes = require("./routes/website");
-const userRoutes = require("./models/user"); 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -22,16 +18,17 @@ mongoose
   .then(() => console.log("✅ MongoDB connecté"))
   .catch((err) => console.error("❌ Erreur de connexion MongoDB :", err));
 
-// Routes API
+// Charger les modèles et routes API
+const websiteRoutes = require("./routes/website");
 app.use("/api/websites", websiteRoutes);
-const authRoutes = require("./routes/auth");  // Ajout des routes d'authentification
+const authRoutes = require("./routes/auth");  
 app.use("/api/auth", authRoutes);
 const contactRoutes = require("./routes/contact");
 app.use("/api/contact", contactRoutes);
 const adminRoutes = require("./routes/admin");
 app.use("/api/admin", adminRoutes);
 const homeRoute = require("./routes/home");
-app.use("/api/home", homeRoute);  // pour GET (accès public)
+app.use("/api/home", homeRoute);  
 
 
 // Route de test pour voir si le serveur fonctionne

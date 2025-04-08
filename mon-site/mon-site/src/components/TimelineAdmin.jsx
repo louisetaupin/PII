@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AiFillDelete } from "react-icons/ai";
 import { wrap } from "popmotion";
 
 function TimelineAdmin() {
@@ -18,6 +19,7 @@ function TimelineAdmin() {
       });
   }, []);
 
+  // Affiche un message temporaire avec animation
   const showSuccess = (msg) => {
     setSuccessMessage(msg);
     setTimeout(() => setSuccessMessage(""), 3000);
@@ -63,7 +65,7 @@ function TimelineAdmin() {
     const updated = timelineData.filter((_, idx) => idx !== currentIndex);
     setTimelineData(updated);
     setCurrentIndex(0);
-    setShowConfirmModal(false); // ❌ ne pas sauvegarder ici
+    setShowConfirmModal(false); // ❌ pas de sauvegarde ici
   };
   
   const handleAdd = () => {
@@ -83,14 +85,14 @@ function TimelineAdmin() {
   return (
     <div>
     <div style={container}>
-      {/* ✅ Animation de succès */}
+      {/* Animation de succès */}
       <AnimatePresence>
         {successMessage && (
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.1 }}
             className="absolute top-5 bg-green-500 text-white px-4 py-2 rounded shadow-md z-50"
           >
             {successMessage}
@@ -104,7 +106,7 @@ function TimelineAdmin() {
         aria-label="Précédent"
         style={button}
         onClick={() => paginate(-1)}
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ scale: 0.8 }}
       >
         <ArrowLeft />
       </motion.button>
@@ -142,12 +144,12 @@ function TimelineAdmin() {
 <div className="flex justify-between mt-4">
   <button
     onClick={() => setShowConfirmModal(true)}
-    className="text-red-500 text-sm underline"
+    className="flex items-center text-red-500 text-sm font-bold"
   >
-    Supprimer
+    <AiFillDelete className="mr-1"/> Supprimer
   </button>
-  <button onClick={handleAdd} className="text-blue-500 text-sm underline">
-    Ajouter une expérience
+  <button onClick={handleAdd} className="text-blue-500 text-sm font-bold">
+    + Ajouter une expérience
   </button>
 </div>
 
@@ -192,7 +194,7 @@ function TimelineAdmin() {
           onClick={() => saveTimeline(timelineData)}
           className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
         >
-          💾 Sauvegarder la timeline
+          Sauvegarder la timeline
         </motion.button>
       </div>
     </div>

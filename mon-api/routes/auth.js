@@ -1,10 +1,10 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user"); // Assure-toi que ce modèle est correct
+const User = require("../models/user"); 
 const router = express.Router();
 
-/** 🔐 Inscription */
+/** 🟢 Inscription (Accessible uniquement via Postman car pas d'utilité pour le site) **/
 router.post("/register", async (req, res) => {
     try {
         const { username, password, role = "user" } = req.body;
@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-/** 🔑 Connexion */
+/** 🟢 Connexion **/
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ error: "❌ Mot de passe incorrect" });
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" }); //token avec les infos de l'utilisateur (identifiant et rôle)
 
         res.json({
             message: "✅ Connexion réussie",

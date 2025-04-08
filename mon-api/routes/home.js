@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Home = require("../models/home");
 
-// Récupérer les données de la page d’accueil
+/** 🔵 Obtenir les informations de la page d'accueil **/
 router.get("/", async (req, res) => {
   try {
     const data = await Home.findOne();

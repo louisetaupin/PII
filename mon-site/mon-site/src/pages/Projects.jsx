@@ -94,22 +94,22 @@ function Projects() {
 
   return (
     <div className="p-8">
-      <h2 className="text-3xl font-bold text-center">Mes projets</h2>
+      <h2 className="text-3xl font-bold text-center mb-6">Mes projets</h2>
 
       {isAdmin && (
         <div className="flex justify-center mb-6 space-x-4">
           <button
             onClick={() => setViewArchived(false)}
-            className={`px-4 py-2 rounded ${
-              !viewArchived ? "bg-yellow-500 text-white" : "bg-gray-300"
+            className={`px-4 py-2 rounded w-1/2 ${
+              !viewArchived ? "bg-yellow-500 text-black" : "bg-gray-300"
             }`}
           >
             Projets actifs
           </button>
           <button
             onClick={() => setViewArchived(true)}
-            className={`px-4 py-2 rounded ${
-              viewArchived ? "bg-yellow-500 text-white" : "bg-gray-300"
+            className={`px-4 py-2 rounded w-1/2 ${
+              viewArchived ? "bg-yellow-500 text-black" : "bg-gray-300"
             }`}
           >
             Projets archivés
@@ -121,7 +121,7 @@ function Projects() {
         <div className="flex justify-center mb-6">
           <button
             onClick={() => setShowModal(true)}
-            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+            className="bg-yellow-500 text-black px-4 py-2 rounded w-full hover:bg-yellow-600"
           >
             + Ajouter un projet
           </button>

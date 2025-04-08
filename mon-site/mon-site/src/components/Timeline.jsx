@@ -7,7 +7,7 @@ function Timeline() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  // 🔁 Récupérer la timeline depuis la base
+  // Récupérer la timeline depuis la bdd
   useEffect(() => {
     fetch("http://localhost:5000/api/home")
       .then((res) => res.json())
@@ -57,7 +57,7 @@ function Timeline() {
           initial={{ opacity: 0, x: direction * 50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: direction * -50 }}
-          transition={{ delay: 0.2, type: "tween", duration: 0.3 }}
+          transition={{ delay: 0.2, type: "tween", duration: 0 }}
           style={{ ...box, backgroundColor: "#fff", padding: "1rem" }}
         >
           <p className="text-sm text-gray-500">{currentItem.date}</p>
@@ -72,7 +72,7 @@ function Timeline() {
         aria-label="Suivant"
         style={button}
         onClick={() => paginate(1)}
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ scale: 0.8 }}
       >
         <ArrowRight />
       </motion.button>

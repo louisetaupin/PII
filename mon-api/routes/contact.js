@@ -1,41 +1,36 @@
-// contact.js (votre route API)
 const express = require("express");
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"); //utilisation de nodemailer pour envoyer un mail
 const router = express.Router();
 
+/** 🟢 Envoyer un mail **/
 router.post("/", async (req, res) => {
   const { name, email, message } = req.body;
 
   try {
-    // Stockez les données dans votre base de données si nécessaire
-    // Exemple : await YourModel.create({ name, email, message });
-
-    // Configurez le transporteur pour l'envoi d'email
+    // Configuration du transporteur pour l'envoi d'email
     let transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,       // par exemple: smtp.gmail.com
-      port: process.env.SMTP_PORT,       // par exemple: 587
-      secure: false,                     // true pour 465, false pour les autres ports
+      host: process.env.SMTP_HOST,       //Gmail
+      port: process.env.SMTP_PORT,       //Port
+      secure: false,                     // Selon le port
       auth: {
-        user: process.env.SMTP_USER,     // votre email
-        pass: process.env.SMTP_PASS,     // votre mot de passe ou un mot de passe d'application
+        user: process.env.SMTP_USER,     // email à modifier dans .env si besoin de changer le destinataire
+        pass: process.env.SMTP_PASS,     // Mot de passe d'application
       },
       tls: {
-        // Ne pas rejeter les certificats auto-signés ça peut être dangereux donc à  modifier peut être pour des questions de sécurité
-        rejectUnauthorized: false,
+        rejectUnauthorized: false,         // Ne pas rejeter les certificats auto-signés 
       },
     });
 
-    // Définissez les options de l'email
+    // Options de l'email
     let mailOptions = {
-      from: `${email}`, // l'email de l'expéditeur (celui qui remplit le formulaire)
-      to: "ltaupin@ensc.fr", // remplacez par l'adresse de destination souhaitée
+      from: `${email}`, // l'email de l'expéditeur 
+      to: "ltaupin@ensc.fr", // l'email du destinataire
       subject: `Nouveau message de ${name}`,
       text: `Message de ${name} (${email}) :\n\n${message}`,
-      replyTo: `${email}`, // <- C’est ça qui fait que "Répondre" utilisera le bon mail
-      // Optionnel : html: `<p>${message}</p>`
+      replyTo: `${email}`, // Réponse directement à l'expéditeur
     };
 
-    // Envoyez l'email
+    // Envoi du mail
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ message: "Email envoyé avec succès" });

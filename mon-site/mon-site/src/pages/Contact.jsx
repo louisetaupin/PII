@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Contact() {
   const [statusMessage, setStatusMessage] = useState("");
   const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // 🔄 état de chargement
+  const [isLoading, setIsLoading] = useState(false); //  état de chargement
 
   const handleSubmit = async (e) => {
     e.preventDefault();
