@@ -24,11 +24,11 @@ function Login() {
         throw new Error(data.error || "Erreur lors de la connexion");
       }
 
-      // ✅ Stocker le token et les infos utilisateur
+      // Stocker le token et les infos utilisateur
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user)); // ⬅️ data.user doit contenir .role
+      localStorage.setItem("user", JSON.stringify(data.user)); // ⬅ data.user doit contenir .role
 
-      // ✅ Rediriger selon le rôle
+      // Rediriger selon le rôle
       if (data.user.role === "admin") {
         navigate("/admin");
       } else {

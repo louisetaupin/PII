@@ -24,7 +24,8 @@ function Home() {
   return (
     <>
       <section className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-white p-4">
-        {/* Bloc Présentation */}
+        
+        {/* Bloc Présentation et CV*/}
         <div className="md:w-1/2 p-4 flex flex-col items-center text-center">
   <h1 className="text-3xl font-bold mb-4">Présentation</h1>
   <p className="mb-4 text-gray-700">

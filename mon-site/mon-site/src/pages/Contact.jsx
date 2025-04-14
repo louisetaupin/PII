@@ -68,6 +68,7 @@ function Contact() {
             isLoading ? "opacity-60 cursor-not-allowed" : ""
           }`}
         >
+          {/* envoi en cours affiché*/}
           {isLoading ? (
             <>
               <svg
@@ -97,7 +98,7 @@ function Contact() {
           )}
         </button>
       </form>
-
+{/* message de confirmation de l'envoi du mail*/}
       {statusMessage && (
         <p
           className={`mt-4 text-center font-semibold ${

@@ -30,7 +30,7 @@ function AdminHome() {
       .catch((err) => console.error("Erreur fetch:", err));
   }, []);
   
-
+// sauvegarde des modifications
   const saveChanges = () => {
     const data = { description };
     fetch("http://localhost:5000/api/admin/presentation", {
@@ -43,11 +43,12 @@ function AdminHome() {
     })
       .then((res) => res.json())
       .then(() => {
-        showSuccess("📝 Description enregistrée !");
+        showSuccess("📝 Modifications enregistrées !");
       })
       .catch(() => alert("❌ Erreur lors de l'enregistrement"));
   };
 
+  //Modification des fichiers photos et/ou CV
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();

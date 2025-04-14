@@ -25,6 +25,7 @@ function TimelineAdmin() {
     setTimeout(() => setSuccessMessage(""), 3000);
   };
 
+  // Sauvegarde des modifications de la timeline
   const saveTimeline = (newTimeline) => {
     console.log("📤 Envoi de la timeline :", newTimeline);
     fetch("http://localhost:5000/api/admin/timeline", {
@@ -46,12 +47,14 @@ function TimelineAdmin() {
       });
   };
 
+  //Pour naviguer sur la timeline
   const paginate = (newDirection) => {
-    const newIndex = wrap(0, timelineData.length, currentIndex + newDirection);
+    const newIndex = wrap(0, timelineData.length, currentIndex + newDirection); //permet de boucler dans les deux sens
     setCurrentIndex(newIndex);
-    setDirection(newDirection);
+    setDirection(newDirection); //pour gérer l'animation de transition
   };
 
+  //Modification d'un élément
   const handleChange = (field, value) => {
     setTimelineData((prev) => {
       const updated = [...prev];
@@ -61,13 +64,15 @@ function TimelineAdmin() {
     });
   };
 
+  //Suppression d'un élément
   const confirmDelete = () => {
     const updated = timelineData.filter((_, idx) => idx !== currentIndex);
     setTimelineData(updated);
     setCurrentIndex(0);
-    setShowConfirmModal(false); // ❌ pas de sauvegarde ici
+    setShowConfirmModal(false); //  pas de sauvegarde ici
   };
   
+  //Ajout d'un élément
   const handleAdd = () => {
     const newItem = {
       date: "",
@@ -80,7 +85,7 @@ function TimelineAdmin() {
   };
 
 
-  const currentItem = timelineData[currentIndex] || {};
+  const currentItem = timelineData[currentIndex] || {}; //objet vide si index non valide
 
   return (
     <div>

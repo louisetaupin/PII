@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GiSmartphone } from "react-icons/gi";
 import { IoIosMail } from "react-icons/io";
-import { FaLinkedin } from "react-icons/fa";
 
 function Footer() {
   const token = localStorage.getItem("token");

@@ -30,10 +30,11 @@ function Timeline() {
     return <div className="text-center text-gray-500">Aucune expérience pour l’instant.</div>;
   }
 
+  //Naviguer sur la timeline
   const paginate = (newDirection) => {
-    const newIndex = wrap(0, timelineData.length, currentIndex + newDirection);
+    const newIndex = wrap(0, timelineData.length, currentIndex + newDirection); //boucler dans les deux sens
     setCurrentIndex(newIndex);
-    setDirection(newDirection);
+    setDirection(newDirection); //gérer la transition
   };
 
   const currentItem = timelineData[currentIndex];

@@ -13,16 +13,6 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import AdminHome from "./pages/AdminHome"; 
 
-
-console.log("Navbar:", Navbar);
-console.log("Footer:", Footer);
-console.log("Home:", Home);
-console.log("Projects:", Projects);
-console.log("Contact:", Contact);
-console.log("NotFound:", NotFound);
-console.log("Login:", Login);
-console.log("AdminHome:", AdminHome);
-
 function App() {
   return (
     <Router>

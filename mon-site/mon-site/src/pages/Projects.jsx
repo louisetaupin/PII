@@ -85,7 +85,7 @@ function Projects() {
     setProjects(projects.filter((p) => p._id !== id));
   };
 
-  // Pour l'édition, on met à jour le projet dans le tableau
+  {/* Pour l'édition, on met à jour le projet dans le tableau */}
   const handleEdit = (updatedProject) => {
     setProjects(
       projects.map((p) => (p._id === updatedProject._id ? updatedProject : p))
@@ -96,6 +96,7 @@ function Projects() {
     <div className="p-8">
       <h2 className="text-3xl font-bold text-center mb-6">Mes projets</h2>
 
+    {/* Boutons accessibles pour l'admin (projets actifs, archivés, ajout de projet */}
       {isAdmin && (
         <div className="flex justify-center mb-6 space-x-4">
           <button
@@ -188,7 +189,8 @@ function Projects() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+    {/* Ajout des cartes projets en  2 colonnes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6"> 
         {projects.map((project) => (
           <ProjectCard
             key={project._id}
